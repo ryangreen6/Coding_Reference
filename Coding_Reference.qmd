@@ -2,9 +2,11 @@
 title: "Coding_Reference"
 format: html
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
-**From EDS 212 Day 2, 8/6/24**
+**From EDS 212 Day 2, 8/6/24** 
 
 Derivatives in R using 'D()' ----
 trying to find the derivative of 5x^2, but you can't write just that into R ----
