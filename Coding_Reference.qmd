@@ -6,28 +6,29 @@ editor_options:
   chunk_output_type: console
 ---
 
-**From EDS 212 Day 2, 8/6/24** 
+# **From EDS 212 Day 2, 8/6/24**
 
-Derivatives in R using 'D()' ----
-trying to find the derivative of 5x^2, but you can't write just that into R ----
+Derivatives in R using 'D()' ---- trying to find the derivative of 5x\^2, but you can't write just that into R ----
 
 create an expression ----
+
 ```{r}
 my_expression <- expression(5*x^2)
 ```
-find the derivative of our expression now, with respect to x ----
-create a new variable for this ----
+
+find the derivative of our expression now, with respect to x ---- create a new variable for this ----
 
 ```{r}
 my_derivative <- D(expr=my_expression, name="x")
 ```
+
 now we can look at our derivative: ----
 
 ```{r}
 my_derivative
 ```
-to learn more, you can always look at the documentation for a function by typing into the console ?D ----
-you can do this with any function ----
+
+to learn more, you can always look at the documentation for a function by typing into the console ?D ---- you can do this with any function ----
 
 now, let's evaulate our derivative at a value of x=2.8 ----
 
@@ -36,7 +37,6 @@ x <- 2.8
 eval(my_derivative)
 ```
 
+———————————————————————————————————————————
 
-
-
-
+#                   **From EDS 212 Day 2, 8/6/24**
