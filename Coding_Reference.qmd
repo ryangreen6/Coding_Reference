@@ -29,7 +29,7 @@ my_derivative
 to learn more, you can always look at the documentation for a function by typing into the console ?D ----
 you can do this with any function ----
 
-now, let's evaulate our derivative at a value of x=2.8 ----
+now, let's evaluate our derivative at a value of x=2.8 ----
 
 ```{r}
 x <- 2.8
@@ -37,6 +37,6 @@ eval(my_derivative)
 ```
 
 
-
+hey Josh!
 
 
