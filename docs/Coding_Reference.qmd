@@ -6,28 +6,29 @@ editor_options:
   chunk_output_type: console
 ---
 
-**From EDS 212 Day 2, 8/6/24** 
+# **From EDS 212 Day 2, 8/6/24**
 
-Derivatives in R using 'D()' ----
-trying to find the derivative of 5x^2, but you can't write just that into R ----
+Derivatives in R using 'D()' ---- trying to find the derivative of 5x\^2, but you can't write just that into R ----
 
 create an expression ----
+
 ```{r}
 my_expression <- expression(5*x^2)
 ```
-find the derivative of our expression now, with respect to x ----
-create a new variable for this ----
+
+find the derivative of our expression now, with respect to x ---- create a new variable for this ----
 
 ```{r}
 my_derivative <- D(expr=my_expression, name="x")
 ```
+
 now we can look at our derivative: ----
 
 ```{r}
 my_derivative
 ```
-to learn more, you can always look at the documentation for a function by typing into the console ?D ----
-you can do this with any function ----
+
+to learn more, you can always look at the documentation for a function by typing into the console ?D ---- you can do this with any function ----
 
 now, let's evaulate our derivative at a value of x=2.8 ----
 
@@ -36,7 +37,92 @@ x <- 2.8
 eval(my_derivative)
 ```
 
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+# **From EDS 221 Day 1, 8/12/24**
 
+List of terminal (bash) commands and what they do
 
+|               |                                                                                                                                                      |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `pwd`         | print your current working directory                                                                                                                 |
+| `cd`          | change directory                                                                                                                                     |
+| `ls`          | list contents of a directory                                                                                                                         |
+| `tree`        | display the contents of a directory in the form of a tree structure (not installed by default)                                                       |
+| `echo`        | print text that is passed in as an argument                                                                                                          |
+| `mv`          | move or rename a file                                                                                                                                |
+| `cp`          | copy a file(s) or directory(ies)                                                                                                                     |
+| `touch`       | create a new empty file                                                                                                                              |
+| `mkdir`       | create a new directory                                                                                                                               |
+| `rm`/`rmdir`  | remove a file/ empty directory (be careful – there is no “trash” folder!)                                                                            |
+| `grep`        | searches a given file(s) for lines containing a match to a given pattern list                                                                        |
+| `awk`         | a text processing language that can be used in shell scripts or at a shell prompt for actions like pattern matching, printing specified fields, etc. |
+| `sed`         | stands for **S**tream **Ed**itor; a versatile command for editing files                                                                              |
+| `cut`         | extract a specific portion of text in a file                                                                                                         |
+| `join`        | join two files based on a key field present in both                                                                                                  |
+| `top`, `htop` | view running processes in a Linux system (press `Q` to quit)                                                                                         |
 
+For file paths always use here::here to direct people to the file within the r project
+
+# **From EDS 221 Day 2, 8/13/24**
+
+Making data frames: name the data frame, set type (data.frame), name your columns and the data to be placed in that column.
+
+Examples:
+
+```{r}
+fruit <- data.frame(type = c("apple", "banana", "peach"), 
+                    mass = c(130, 195, 150))
+```
+
+Write code to create a data frame called `df_1`
+
+```{r}
+df_1 <- data.frame(region = c("A", "B", "A", "D"),
+                   species = c("otter", 
+                               "great white", 
+                               "sea lion", 
+                               "gray whale"),
+                   count = c(12, 2, 36, 6))
+
+```
+
+Creating subsets of a data frame with index and subset and plotting
+
+Examples:
+
+```{r}
+mtcars[mtcars$gear == 5,]
+mtcars[mtcars$gear == 5 & mtcars$cyl ==4,]
+
+subset(mtcars, gear == 5 & cyl == 4)
+
+library(tidyverse)
+ggplot(data = subset(mtcars, gear == 5 & cyl == 4),
+       aes(x = gear, y = cyl)) + geom_col()
+```
+
+To remove columns from a data frame, you can…
+
+-   set individual columns to NULL
+
+```{r}
+cars <- mtcars
+cars$qsec <- NULL
+cars
+
+```
+
+-   subset to return only the columns you want, based on their names
+
+```{r}
+car_hp_disp <- cars[c("disp", "hp")]
+```
+
+-   or, if you know the columns you don’t want, use set operations to work which columns to keep
+
+```{r}
+no_carb <- cars[setdiff(names(cars), "carb")]
+```
+
+# **From EDS 221 Day 3, 8/14/24**
