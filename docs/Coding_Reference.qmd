@@ -44,7 +44,7 @@ eval(my_derivative)
 List of terminal (bash) commands and what they do
 
 |               |                                                                                                                                                      |
-|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-------------|-----------------------------------------------------------|
 | `pwd`         | print your current working directory                                                                                                                 |
 | `cd`          | change directory                                                                                                                                     |
 | `ls`          | list contents of a directory                                                                                                                         |
