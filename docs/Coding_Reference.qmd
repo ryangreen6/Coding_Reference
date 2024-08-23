@@ -44,7 +44,7 @@ eval(my_derivative)
 List of terminal (bash) commands and what they do
 
 |               |                                                                                                                                                      |
-|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-------------|-----------------------------------------------------------|
 | `pwd`         | print your current working directory                                                                                                                 |
 | `cd`          | change directory                                                                                                                                     |
 | `ls`          | list contents of a directory                                                                                                                         |
@@ -126,3 +126,96 @@ no_carb <- cars[setdiff(names(cars), "carb")]
 ```
 
 # **From EDS 221 Day 3, 8/14/24**
+
+# **From EDS 221 Day 6, 8/20/24**
+
+Mutate/Filter/Group by %\>% summarize/Case when
+
+```{r}
+
+# import documents and read csv, clean names 
+lobsters <- read_csv(here("data","Lobster_Abundance_All_Years_20210412.csv"), na = c("-99999", "")) %>% 
+  clean_names() %>% 
+  uncount(count)
+
+# Create a summary table that finds the total counts (see: n()), and mean carapace lengths of lobsters observed in the data set by site and year
+
+lobster_total <- lobsters %>% 
+  group_by(site, year) %>% 
+  summarise(individuals = n(), carapace_mean = mean(size_mm, na.rm = TRUE))
+
+# Create a ggplot graph of the number of total lobsters observed (y-axis) by year (x-axis) in the study, grouped (either aesthetically or by faceting) by site
+
+ggplot(lobster_total, aes(x = year, y = individuals)) + geom_line(aes(group = site, color = site))
+
+# or this way
+ggplot(lobster_total, aes(x = site, y = individuals)) + geom_point(aes(color = site)) + facet_wrap(vars(year))
+
+#The legal lobster size (carapace length) in California is 79.76 mm.
+
+lobster_2020 <- subset(lobsters, year == 2020)
+
+legal_lobster_2020 <- lobster_2020 %>% mutate(legal = dplyr::case_when(size_mm <= 79.76 ~ 'YES',
+                                                                       size_mm >= 79.76 ~ 'NO')) %>%
+  group_by(site, legal) %>%
+  summarise(total_lobsters = n())
+
+ggplot(legal_lobster_2020, aes(x = site, y = total_lobsters)) + geom_col(aes(fill = legal), position = "fill")
+
+
+Filter function 
+# Create and store a subset that only contains lobsters from sites “IVEE”, “CARP” and “NAPL”. Check your output data frame to ensure that only those three sites exist.
+ex_a <- lobsters %>%
+  filter(site == c("AQUE", "CARP", "NAPL"))
+
+# Create a subset that only contains lobsters observed in August.
+ex_b <- ex_a %>%
+  filter(month == 8)
+
+# Create a subset with lobsters at Arroyo Quemado (AQUE) OR with a carapace length greater than 70 mm.
+ex_c <- ex_b %>%
+  filter(site == "AQUE" | size_mm > 70)
+
+# Create a subset that does NOT include observations from Naples Reef (NAPL)
+ex_d <- ex_c %>% 
+  filter(site != "NAPL")
+
+Group by 
+# Find the mean and standard deviation of lobster carapace length, grouped by site.
+ex_e <- lobsters %>%
+  group_by(site) %>% 
+  summarize(carapace_mean = mean(size_mm, na.rm = TRUE), carapace_sd = sd(size_mm, na.rm = TRUE))
+
+# Find the maximum carapace length by site and month.
+ex_f <- lobsters %>%
+  group_by(site, month) %>% 
+  summarize(carapace_max_lenght = max(size_mm, na.rm = TRUE))
+
+Mutate
+# Add a new column that contains lobster carapace length converted to centimeters. Check output.
+ex_g <- lobsters %>% 
+  mutate(carapace_length_cm = size_mm * 10)
+
+# Update the site column to all lowercase. Check output.
+ex_h <- lobsters %>% 
+  mutate(site = tolower(site))
+
+# Convert the area column to a character (not sure why you’d want to do this, but try it anyway). Check output.
+ex_i <- lobsters %>% 
+  mutate(area = as.character(area))
+
+# check class
+class(ex_i$area)
+
+Case When
+# Use case_when() to add a new column called size_bin that contains “small” if carapace size is <= 70 mm, or “large” if it is greater than 70 mm. Check output.
+ex_j <- lobsters %>% mutate(size_bin = case_when(size_mm <= 70 ~ "small",
+                                                 size_mm > 70 ~ "large"))
+
+# Use case_when() to add a new column called designation that contains “MPA” if the site is “IVEE” or “NAPL”, and “not MPA” for all other outcomes.
+ex_k <- lobsters %>% mutate(designation = case_when(site %in% c("NAPL", "IVEE") ~ "MPA",
+                                                    TRUE ~ "not MPA"))
+                                                  
+                                                                
+
+```
